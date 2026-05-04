@@ -23,7 +23,7 @@ import {
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 
-const data = {
+export const navData = {
   user: {
     name: "shadcn",
     email: "m@example.com",
@@ -83,7 +83,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupContent className="flex flex-col gap-2">
             <SidebarMenu>
-              {data.navMain.map((item) => {
+              {navData.navMain.map((item) => {
                 let isActive = false;
 
                 if (item.url === "/dashboard") {

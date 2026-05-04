@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "@/services/expense.service";
 import { Spinner } from "../ui/spinner";
 import { AddExpense } from "./add-expense";
+import { DatePicker } from "../date-picker";
 
 function TableExpense() {
   const [page, setPage] = useState(1);
@@ -42,7 +43,7 @@ function TableExpense() {
       {data ? (
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-bold">Pengeluaran</h2>
+            <DatePicker />
             <Button
               variant="outline"
               onClick={() => {
