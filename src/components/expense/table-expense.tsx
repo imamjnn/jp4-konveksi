@@ -43,7 +43,13 @@ function TableExpense() {
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-bold">Pengeluaran</h2>
-            <Button variant="outline" onClick={() => setOpen(true)}>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setExpenseId(undefined);
+                setOpen(true);
+              }}
+            >
               + Tambah Pengeluaran
             </Button>
           </div>
@@ -88,8 +94,8 @@ function TableExpense() {
             </Table>
           </Card>
           <TablePagination
-            page={data?.meta.page}
-            totalPages={data?.meta.totalPages}
+            page={data?.pagination.page}
+            totalPages={data?.pagination.totalPages}
             onChange={setPage}
           />
           <AddExpense

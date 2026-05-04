@@ -10,14 +10,15 @@ import {
 import { IconBell, IconLogout, IconUser } from "@tabler/icons-react";
 import { SidebarMenuButton } from "../ui/sidebar";
 import { useRouter } from "next/navigation";
-import api from "@/lib/axios";
+import Cookies from "js-cookie";
 
 export function RightProfile() {
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      await api.post("/api/auth/logout");
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
 
       // redirect ke login
       router.refresh();

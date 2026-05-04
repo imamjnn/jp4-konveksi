@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IconX } from "@tabler/icons-react";
 import { Card, CardContent } from "../ui/card";
 import { DatePicker } from "../date-picker";
@@ -65,7 +65,7 @@ export function AddExpense({ open, setOpen, onClose, expenseId }: Props) {
     setDetails([{ name: "", qty: 1, price: 0 }]);
   };
 
-  const loadDetail = async () => {
+  const loadDetail = useCallback(async () => {
     if (!expenseId) return;
 
     try {
@@ -76,7 +76,7 @@ export function AddExpense({ open, setOpen, onClose, expenseId }: Props) {
       if (response?.success && response.data) {
         const expense = response.data;
 
-        setCategoryId(expense.categoryId);
+        setCategoryId(expense.category.id);
         setDescription(expense.description || "");
         setDate(new Date(expense.date));
 
@@ -89,18 +89,18 @@ export function AddExpense({ open, setOpen, onClose, expenseId }: Props) {
         );
       } else {
         toast.error("Gagal memuat detail");
+        setOpen(false);
       }
     } finally {
       setLoadingDetail(false);
     }
-  };
+  }, [expenseId, setOpen]);
 
   useEffect(() => {
-    console.log("Expense ID:", expenseId);
     if (open && expenseId) {
       loadDetail();
     }
-  }, [expenseId]);
+  }, [open, expenseId, loadDetail]);
 
   // hitung total
   const total = details.reduce((acc, item) => acc + item.qty * item.price, 0);
@@ -177,110 +177,116 @@ export function AddExpense({ open, setOpen, onClose, expenseId }: Props) {
           <DialogHeader>
             <DialogTitle>{expenseId ? "" : "Tambah "}Pengeluaran</DialogTitle>
           </DialogHeader>
-          <FieldGroup className="no-scrollbar max-h-[70vh] overflow-y-auto">
-            <div className="flex justify-between items-center gap-4">
+          {loadingDetail && expenseId ? (
+            <div className="flex justify-center items-center py-12">
+              <Spinner className="size-6" />
+            </div>
+          ) : (
+            <FieldGroup className="no-scrollbar max-h-[70vh] overflow-y-auto">
+              <div className="flex justify-between items-center gap-4">
+                <Field>
+                  <Label>Kategori</Label>
+                  <Select
+                    value={String(categoryId)}
+                    onValueChange={(e) => setCategoryId(Number(e))}
+                  >
+                    <SelectTrigger className="w-full max-w-lg">
+                      <SelectValue placeholder="Pilih Kategori" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Kategori</SelectLabel>
+                        <SelectItem value="1">Bahan</SelectItem>
+                        <SelectItem value="2">Jasa</SelectItem>
+                        <SelectItem value="3">Operasional</SelectItem>
+                        <SelectItem value="4">Lain - lain</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </Field>
+                <Field className="max-w-50">
+                  <Label>Tanggal</Label>
+                  <DatePicker defaultDate={date} onDateChange={setDate} />
+                </Field>
+              </div>
               <Field>
-                <Label>Kategori</Label>
-                <Select
-                  value={String(categoryId)}
-                  onValueChange={(e) => setCategoryId(Number(e))}
-                >
-                  <SelectTrigger className="w-full max-w-lg">
-                    <SelectValue placeholder="Pilih Kategori" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Kategori</SelectLabel>
-                      <SelectItem value="1">Bahan</SelectItem>
-                      <SelectItem value="2">Jasa</SelectItem>
-                      <SelectItem value="3">Operasional</SelectItem>
-                      <SelectItem value="4">Lain - lain</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Label>Deskripsi</Label>
+                <Input
+                  name="name"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
               </Field>
-              <Field className="max-w-50">
-                <Label>Tanggal</Label>
-                <DatePicker defaultDate={new Date()} onDateChange={setDate} />
-              </Field>
-            </div>
-            <Field>
-              <Label>Deskripsi</Label>
-              <Input
-                name="name"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Field>
 
-            {/* Detail */}
-            <div>
-              <h2 className="font-medium mb-2">Detail</h2>
-              <div className="flex flex-col gap-2">
-                {details.map((item, index) => (
-                  <Card key={index} className="m-0.5">
-                    <CardContent className="flex flex-col gap-2">
-                      <Input
-                        placeholder="Nama"
-                        value={item.name}
-                        className="min-w-60"
-                        onChange={(e) =>
-                          updateItem(index, "name", e.target.value)
-                        }
-                      />
-                      <div className="flex gap-4 items-center">
-                        <div className="flex items-center gap-2">
-                          <p>Qty:</p>
-                          <Input
-                            type="number"
-                            value={item.qty}
-                            className="max-w-30"
-                            onChange={(e) =>
-                              updateItem(index, "qty", Number(e.target.value))
-                            }
-                          />
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <p>Jumlah:</p>
-                          <Input
-                            value={formatRupiah(item.price)}
-                            onChange={(e) =>
-                              updateItem(
-                                index,
-                                "price",
-                                parseNumber(e.target.value),
-                              )
-                            }
-                          />
-                        </div>
+              {/* Detail */}
+              <div>
+                <h2 className="font-medium mb-2">Detail</h2>
+                <div className="flex flex-col gap-2">
+                  {details.map((item, index) => (
+                    <Card key={index} className="m-0.5">
+                      <CardContent className="flex flex-col gap-2">
+                        <Input
+                          placeholder="Nama"
+                          value={item.name}
+                          className="min-w-60"
+                          onChange={(e) =>
+                            updateItem(index, "name", e.target.value)
+                          }
+                        />
+                        <div className="flex gap-4 items-center">
+                          <div className="flex items-center gap-2">
+                            <p>Qty:</p>
+                            <Input
+                              type="number"
+                              value={item.qty}
+                              className="max-w-30"
+                              onChange={(e) =>
+                                updateItem(index, "qty", Number(e.target.value))
+                              }
+                            />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <p>Jumlah:</p>
+                            <Input
+                              value={formatRupiah(item.price)}
+                              onChange={(e) =>
+                                updateItem(
+                                  index,
+                                  "price",
+                                  parseNumber(e.target.value),
+                                )
+                              }
+                            />
+                          </div>
 
-                        <div className="text-right pr-2">
-                          {formatRupiah(item.qty * item.price)}
-                        </div>
+                          <div className="text-right pr-2">
+                            {formatRupiah(item.qty * item.price)}
+                          </div>
 
-                        <div className="flex justify-end">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => removeRow(index)}
-                            className="text-red-500"
-                          >
-                            <IconX />
-                          </Button>
+                          <div className="flex justify-end">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => removeRow(index)}
+                              className="text-red-500"
+                            >
+                              <IconX />
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                <div className="flex justify-between items-center">
+                  <Button variant="ghost" onClick={addRow}>
+                    + Tambah Item
+                  </Button>
+                  <p>{formatRupiah(total)}</p>
+                </div>
               </div>
-              <div className="flex justify-between items-center">
-                <Button variant="ghost" onClick={addRow}>
-                  + Tambah Item
-                </Button>
-                <p>{formatRupiah(total)}</p>
-              </div>
-            </div>
-          </FieldGroup>
+            </FieldGroup>
+          )}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Batal</Button>

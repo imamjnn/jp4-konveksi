@@ -10,7 +10,7 @@ import axios from "axios";
 export const getExpenses = async (page: number = 1) => {
   try {
     const response = await api.get<ExpensesResponse>(
-      `/api/expenses?page=${page}&limit=10`,
+      `/expenses?page=${page}&limit=10`,
     );
     if (response) {
       return response.data;
@@ -25,7 +25,7 @@ export const getExpenses = async (page: number = 1) => {
 
 export const createExpense = async (params: CreateExpensePayload) => {
   try {
-    const response = await api.post<DefaultResponse>(`/api/expenses`, params);
+    const response = await api.post<DefaultResponse>(`/expenses`, params);
     if (response) {
       return response.data;
     }
@@ -44,7 +44,7 @@ export const createExpense = async (params: CreateExpensePayload) => {
 export const updateExpense = async (params: CreateExpensePayload) => {
   try {
     const response = await api.put<DefaultResponse>(
-      `/api/expenses/${params.id}`,
+      `/expenses/${params.id}`,
       params,
     );
     if (response) {
@@ -64,7 +64,7 @@ export const updateExpense = async (params: CreateExpensePayload) => {
 
 export const deleteExpense = async (id: number = 1) => {
   try {
-    const response = await api.delete<DefaultResponse>(`/api/expenses/${id}`);
+    const response = await api.delete<DefaultResponse>(`/expenses/${id}`);
     if (response) {
       return response.data;
     }
@@ -78,9 +78,7 @@ export const deleteExpense = async (id: number = 1) => {
 
 export const getDetailExpense = async (id: number = 1) => {
   try {
-    const response = await api.get<DetailExpensesResponse>(
-      `/api/expenses/${id}`,
-    );
+    const response = await api.get<DetailExpensesResponse>(`/expenses/${id}`);
     if (response) {
       return response.data;
     }

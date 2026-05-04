@@ -23,6 +23,12 @@ export function DatePicker({ defaultDate, onDateChange }: Props) {
   const [date, setDate] = React.useState<Date | undefined>(defaultDate);
 
   React.useEffect(() => {
+    if (defaultDate) {
+      setDate(defaultDate);
+    }
+  }, [defaultDate]);
+
+  React.useEffect(() => {
     if (date && onDateChange) {
       onDateChange(date);
     }

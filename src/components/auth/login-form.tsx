@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import api from "@/lib/axios";
+import { authLogin } from "@/services/auth.service";
 
 export function LoginForm({
   className,
@@ -23,13 +23,10 @@ export function LoginForm({
     setLoading(true);
 
     try {
-      await api.post("/api/auth/login", {
-        email,
-        password,
-      });
-      console.log("Login berhasil");
-      // kalau sukses → redirect
-      router.push("/dashboard");
+      const response = await authLogin(email, password);
+      if (response) {
+        router.push("/dashboard");
+      }
     } catch (err: any) {
       toast.error(err.response?.data?.error || "Login gagal");
     } finally {

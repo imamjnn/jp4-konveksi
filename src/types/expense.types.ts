@@ -29,11 +29,13 @@ export type ExpensesData = {
 export interface ExpensesResults {
   success: boolean;
   data: ExpensesData[];
-  meta: {
+  pagination: {
     page: number;
     limit: number;
     total: number;
     totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
   };
 }
 
@@ -41,13 +43,19 @@ export type ExpensesResponse = ResponseAPI<ExpensesResults>;
 
 type DetailExpenseData = {
   id: number;
-  categoryId: number;
   description: string;
   totalAmount: number;
-  createdBy: number;
   date: string;
   createdAt: string;
   updatedAt: string;
+  category: {
+    id: number;
+    name: string;
+  };
+  createdBy: {
+    id: number;
+    name: string;
+  };
   details: {
     id: number;
     expenseId: number;

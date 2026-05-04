@@ -2,18 +2,18 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function proxy(req: NextRequest) {
-  const token = req.cookies.get("token")?.value;
+  const accessToken = req.cookies.get("accessToken")?.value;
   const { pathname } = req.nextUrl;
 
-  console.log("Proxy jalan:", pathname, "token:", token);
+  console.log("Proxy jalan:", pathname, "accessToken:", accessToken);
 
   // ✅ kalau SUDAH login dan buka /login → redirect ke dashboard
-  if (token && pathname === "/login") {
+  if (accessToken && pathname === "/login") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   // ❌ kalau BELUM login dan akses halaman protected
-  if (!token && pathname.startsWith("/dashboard")) {
+  if (!accessToken && pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
