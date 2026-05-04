@@ -28,7 +28,10 @@ export type ExpensesData = {
 
 export interface ExpensesResults {
   success: boolean;
+  message: string;
   data: ExpensesData[];
+  totalAmount: number;
+  totalTransactions: number;
   pagination: {
     page: number;
     limit: number;
@@ -68,13 +71,8 @@ type DetailExpenseData = {
 
 export interface DetailExpensesResults {
   success: boolean;
+  message: string;
   data: DetailExpenseData;
-  meta: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
 }
 
 export type DetailExpensesResponse = ResponseAPI<DetailExpensesResults>;

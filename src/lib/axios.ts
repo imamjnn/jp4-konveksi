@@ -64,10 +64,10 @@ api.interceptors.response.use(
       }
     }
 
-    const message =
-      error.response?.data?.error || error.message || "Request failed";
+    // const message =
+    //   error.response?.data?.error || error.message || "Request failed";
 
-    return Promise.reject(new Error(message));
+    return Promise.reject(error);
   },
 );
 

@@ -139,7 +139,7 @@ export function AddExpense({ open, setOpen, onClose, expenseId }: Props) {
       setOpen(false);
       onClose(); // panggil callback untuk refresh data
     } else {
-      toast.error(response.error || "Gagal menyimpan pengeluaran.");
+      toast.error(response.message || "Gagal menyimpan pengeluaran.");
     }
   };
 

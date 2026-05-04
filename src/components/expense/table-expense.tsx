@@ -18,16 +18,23 @@ import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "@/services/expense.service";
 import { Spinner } from "../ui/spinner";
 import { AddExpense } from "./add-expense";
-import { DatePicker } from "../date-picker";
+import { RangeDatePicker } from "../range-date-picker";
+import { DateRange } from "react-day-picker";
 
 function TableExpense() {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [expenseId, setExpenseId] = useState<number | undefined>(undefined);
+  const [range, setRange] = useState<DateRange | undefined>(undefined);
 
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ["expenses", page],
-    queryFn: () => getExpenses(page),
+    queryKey: ["expenses", page, range],
+    queryFn: () =>
+      getExpenses(
+        page,
+        range?.from ? dayjs(range.from).format("YYYY-MM-DD") : undefined,
+        range?.to ? dayjs(range.to).format("YYYY-MM-DD") : undefined,
+      ),
   });
 
   if (isFetching) {
@@ -43,7 +50,7 @@ function TableExpense() {
       {data ? (
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center">
-            <DatePicker />
+            <RangeDatePicker value={range} onChange={setRange} />
             <Button
               variant="outline"
               onClick={() => {
@@ -57,7 +64,8 @@ function TableExpense() {
           <Card className="w-full p-4">
             <Table>
               <TableCaption>
-                Daftar pengeluaran Anda baru-baru ini.
+                Total Pengeluaran: Rp{formatRupiah(data.totalAmount)} | Jumlah
+                Items: {data.totalTransactions}.
               </TableCaption>
               <TableHeader>
                 <TableRow>

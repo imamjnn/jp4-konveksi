@@ -7,11 +7,16 @@ import {
   SummaryExpensesResponse,
 } from "@/types/expense.types";
 import axios from "axios";
+import { toast } from "sonner";
 
-export const getExpenses = async (page: number = 1) => {
+export const getExpenses = async (
+  page: number = 1,
+  dateFrom?: string,
+  dateTo?: string,
+) => {
   try {
     const response = await api.get<ExpensesResponse>(
-      `/expenses?page=${page}&limit=10`,
+      `/expenses?page=${page}&limit=10${dateFrom ? `&dateFrom=${dateFrom}&dateTo=${dateTo}` : ""}`,
     );
     if (response) {
       return response.data;
