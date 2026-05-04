@@ -4,6 +4,7 @@ import {
   CreateExpensePayload,
   DetailExpensesResponse,
   ExpensesResponse,
+  SummaryExpensesResponse,
 } from "@/types/expense.types";
 import axios from "axios";
 
@@ -86,6 +87,25 @@ export const getDetailExpense = async (id: number = 1) => {
     return null;
   } catch (error) {
     console.error("Error fetching detail expenses:", error);
+    return null;
+  }
+};
+
+export const getSummaryExpense = async (params: {
+  dateFrom: string;
+  dateTo: string;
+}) => {
+  try {
+    const response = await api.get<SummaryExpensesResponse>(
+      `/expenses/summary${params.dateFrom ? `?dateFrom=${params.dateFrom}&dateTo=${params.dateTo}` : ""}`,
+    );
+    if (response) {
+      return response.data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error fetching summary expenses:", error);
     return null;
   }
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -9,29 +11,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import { getSummaryExpense } from "@/services/expense.service";
+import { formatRupiah } from "@/lib/formatter";
 
 export function SectionCards() {
+  const { data, isFetching } = useQuery({
+    queryKey: ["summary-expenses"],
+    queryFn: () => getSummaryExpense({ dateFrom: "", dateTo: "" }),
+  });
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Total Pengeluaran</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            Rp{formatRupiah(data?.data.totalAmount || 0)}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
+            {/* <Badge variant="outline">
               <IconTrendingUp />
-              +12.5%
-            </Badge>
+              {data?.data.totalTransactions}
+            </Badge> */}
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
+            Jumlah items {data?.data.totalTransactions}{" "}
+            <IconTrendingUp className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            Total pengeluaran selama ini
           </div>
         </CardFooter>
       </Card>

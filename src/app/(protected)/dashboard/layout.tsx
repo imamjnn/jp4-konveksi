@@ -6,12 +6,23 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 dayjs.locale("id");
 
 const queryClient = new QueryClient();
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = Cookies.get("accessToken");
+    if (!token) {
+      router.replace("/login");
+    }
+  }, [router]);
   return (
     <QueryClientProvider client={queryClient}>
       <SidebarProvider

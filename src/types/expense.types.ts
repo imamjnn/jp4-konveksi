@@ -78,3 +78,31 @@ export interface DetailExpensesResults {
 }
 
 export type DetailExpensesResponse = ResponseAPI<DetailExpensesResults>;
+
+export interface SummaryExpensesResults {
+  success: boolean;
+  message: string;
+  data: {
+    period: string;
+    dateFrom: string;
+    dateTo: string;
+    totalAmount: number;
+    totalTransactions: number;
+    byCategory: [
+      {
+        categoryId: number;
+        categoryName: string;
+        totalAmount: string;
+        totalTransactions: number;
+      },
+      {
+        categoryId: number;
+        categoryName: string;
+        totalAmount: string;
+        totalTransactions: number;
+      },
+    ];
+  };
+}
+
+export type SummaryExpensesResponse = ResponseAPI<SummaryExpensesResults>;
