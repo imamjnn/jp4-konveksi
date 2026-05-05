@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import {
+  IconCalendarDollar,
   IconChartBar,
   IconDashboard,
   IconFolder,
@@ -38,6 +39,11 @@ export const navData = {
     {
       title: "Pengeluaran",
       url: "/dashboard/expense",
+      icon: IconCalendarDollar,
+    },
+    {
+      title: "Item",
+      url: "/dashboard/items",
       icon: IconListDetails,
     },
     {
@@ -51,8 +57,8 @@ export const navData = {
       icon: IconFolder,
     },
     {
-      title: "Pegawai",
-      url: "/dashboard/worker",
+      title: "Member",
+      url: "/dashboard/member",
       icon: IconUsers,
     },
   ],
