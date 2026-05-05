@@ -35,6 +35,7 @@ import {
   updateExpense,
 } from "@/services/expense.service";
 import { formatRupiah, parseNumber } from "@/lib/formatter";
+import { SelectCategory } from "./select-category";
 
 interface DetailItem {
   name: string;
@@ -184,26 +185,10 @@ export function AddExpense({ open, setOpen, onClose, expenseId }: Props) {
           ) : (
             <FieldGroup className="no-scrollbar max-h-[70vh] overflow-y-auto">
               <div className="flex justify-between items-center gap-4">
-                <Field>
-                  <Label>Kategori</Label>
-                  <Select
-                    value={String(categoryId)}
-                    onValueChange={(e) => setCategoryId(Number(e))}
-                  >
-                    <SelectTrigger className="w-full max-w-lg">
-                      <SelectValue placeholder="Pilih Kategori" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Kategori</SelectLabel>
-                        <SelectItem value="1">Bahan</SelectItem>
-                        <SelectItem value="2">Jasa</SelectItem>
-                        <SelectItem value="3">Operasional</SelectItem>
-                        <SelectItem value="4">Lain - lain</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </Field>
+                <SelectCategory
+                  categoryId={categoryId}
+                  setCategoryId={setCategoryId}
+                />
                 <Field className="max-w-50">
                   <Label>Tanggal</Label>
                   <DatePicker defaultDate={date} onDateChange={setDate} />
