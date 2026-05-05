@@ -84,8 +84,8 @@ export default function MemberPage() {
                   {data?.data.map((item) => (
                     <TableRow key={item.id}>
                       <TableCell className="font-medium">{item.name}</TableCell>
-                      <TableCell>{item.phone}</TableCell>
-                      <TableCell>{item.address}</TableCell>
+                      <TableCell>{item.phone ? item.phone : "-"}</TableCell>
+                      <TableCell>{item.address ? item.address : "-"}</TableCell>
                       <TableCell className="text-right">
                         <Button
                           size="icon"

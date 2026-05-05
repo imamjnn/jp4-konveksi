@@ -83,7 +83,9 @@ function TableExpense() {
                       {dayjs(expense.date).format("DD MMM YYYY")}
                     </TableCell>
                     <TableCell>{expense.category.name}</TableCell>
-                    <TableCell>{expense.description}</TableCell>
+                    <TableCell>
+                      {expense.description ? expense.description : "-"}
+                    </TableCell>
                     <TableCell>Rp{formatRupiah(expense.totalAmount)}</TableCell>
                     <TableCell className="text-right">
                       <Button

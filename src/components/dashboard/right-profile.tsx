@@ -21,7 +21,7 @@ export function RightProfile() {
       Cookies.remove("refreshToken");
 
       // redirect ke login
-      router.refresh();
+      router.replace("/login");
     } catch (err) {
       console.error(err);
     }

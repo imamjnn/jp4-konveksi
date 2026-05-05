@@ -21,7 +21,7 @@ import { IconArrowLeft, IconEdit } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 export default function ItemDetailPage() {
   const searchParams = useSearchParams();

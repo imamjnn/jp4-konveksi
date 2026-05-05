@@ -23,8 +23,15 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
       router.replace("/login");
     }
   }, [router]);
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-svh w-full items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
       <QueryClientProvider client={queryClient}>
         <SidebarProvider
           style={

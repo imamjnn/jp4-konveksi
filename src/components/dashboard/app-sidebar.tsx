@@ -5,9 +5,9 @@ import {
   IconCalendarDollar,
   IconChartBar,
   IconDashboard,
-  IconFolder,
   IconInnerShadowTop,
   IconListDetails,
+  IconNotes,
   IconUsers,
 } from "@tabler/icons-react";
 import {
@@ -52,9 +52,9 @@ export const navData = {
       icon: IconChartBar,
     },
     {
-      title: "Trasnsaksi",
-      url: "/dashboard/transaction",
-      icon: IconFolder,
+      title: "Voucher",
+      url: "/dashboard/voucher",
+      icon: IconNotes,
     },
     {
       title: "Member",
