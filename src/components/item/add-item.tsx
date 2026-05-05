@@ -78,7 +78,6 @@ export default function AddItem({
     const payload = {
       id: itemId!,
       name,
-      rate,
     };
     const response = await mutationUpdate.mutateAsync(payload);
     if (response && response.success) {
