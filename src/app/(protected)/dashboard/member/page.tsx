@@ -39,7 +39,7 @@ export default function MemberPage() {
   }, [search]);
 
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ["expenses", debouncedSearch, page],
+    queryKey: ["members", debouncedSearch, page],
     queryFn: () => getMembers(debouncedSearch, page),
   });
 
