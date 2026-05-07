@@ -8,6 +8,7 @@ import {
   IconInnerShadowTop,
   IconListDetails,
   IconNotes,
+  IconTransfer,
   IconUsers,
 } from "@tabler/icons-react";
 import {
@@ -16,6 +17,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -46,11 +48,7 @@ export const navData = {
       url: "/dashboard/items",
       icon: IconListDetails,
     },
-    {
-      title: "Laporan",
-      url: "/dashboard/report",
-      icon: IconChartBar,
-    },
+
     {
       title: "Voucher",
       url: "/dashboard/voucher",
@@ -60,6 +58,23 @@ export const navData = {
       title: "Member",
       url: "/dashboard/member",
       icon: IconUsers,
+    },
+  ],
+  navSale: [
+    {
+      title: "Produk",
+      url: "/dashboard/product",
+      icon: IconListDetails,
+    },
+    {
+      title: "Transaksi",
+      url: "/dashboard/transaction",
+      icon: IconTransfer,
+    },
+    {
+      title: "Laporan",
+      url: "/dashboard/report",
+      icon: IconChartBar,
     },
   ],
 };
@@ -90,6 +105,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent className="flex flex-col gap-2">
             <SidebarMenu>
               {navData.navMain.map((item) => {
+                let isActive = false;
+
+                if (item.url === "/dashboard") {
+                  isActive = pathname === "/dashboard";
+                } else {
+                  isActive = pathname.startsWith(item.url);
+                }
+
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      onClick={() => router.push(item.url)}
+                      className={cn(
+                        isActive &&
+                          "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
+                      )}
+                    >
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupContent className="flex flex-col">
+            <SidebarGroupLabel>Penjualan</SidebarGroupLabel>
+            <SidebarMenu>
+              {navData.navSale.map((item) => {
                 let isActive = false;
 
                 if (item.url === "/dashboard") {

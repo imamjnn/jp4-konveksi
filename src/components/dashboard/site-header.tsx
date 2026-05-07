@@ -8,7 +8,7 @@ import { navData } from "./app-sidebar";
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const current = navData.navMain.find((item) =>
+  const current = [...navData.navMain, ...navData.navSale].find((item) =>
     item.url === "/dashboard"
       ? pathname === "/dashboard"
       : pathname.startsWith(item.url),

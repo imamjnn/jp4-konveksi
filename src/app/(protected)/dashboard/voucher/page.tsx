@@ -90,7 +90,7 @@ export default function VoucherPage() {
           {[
             { label: "Semua", value: "" },
             { label: "On Process", value: "on_process" },
-            { label: "Paid", value: "paid" },
+            // { label: "Paid", value: "paid" },
             { label: "Claimed", value: "claimed" },
           ].map((s) => (
             <Button
