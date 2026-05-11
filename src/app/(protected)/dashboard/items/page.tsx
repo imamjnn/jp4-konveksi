@@ -92,7 +92,7 @@ export default function ItemsPage() {
                           size="icon"
                           variant="outline"
                           onClick={() =>
-                            router.push(`/dashboard/items/detail?id=${item.id}`)
+                            router.push(`/dashboard/items/${item.id}`)
                           }
                         >
                           <IconEye />

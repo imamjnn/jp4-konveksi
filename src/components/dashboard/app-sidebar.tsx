@@ -48,32 +48,31 @@ export const navData = {
       url: "/dashboard/items",
       icon: IconListDetails,
     },
-
-    {
-      title: "Voucher",
-      url: "/dashboard/voucher",
-      icon: IconNotes,
-    },
     {
       title: "Member",
       url: "/dashboard/member",
       icon: IconUsers,
     },
+    {
+      title: "Voucher",
+      url: "/dashboard/voucher",
+      icon: IconNotes,
+    },
   ],
   navSale: [
     {
       title: "Produk",
-      url: "/dashboard/product",
+      url: "/dashboard/sale/product",
       icon: IconListDetails,
     },
     {
       title: "Transaksi",
-      url: "/dashboard/transaction",
+      url: "/dashboard/sale/transaction",
       icon: IconTransfer,
     },
     {
       title: "Laporan",
-      url: "/dashboard/report",
+      url: "/dashboard/sale/report",
       icon: IconChartBar,
     },
   ],
@@ -102,7 +101,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupContent className="flex flex-col gap-2">
+          <SidebarGroupContent className="flex flex-col">
             <SidebarMenu>
               {navData.navMain.map((item) => {
                 let isActive = false;
